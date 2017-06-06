@@ -1,0 +1,21 @@
+import time
+import datetime
+
+import os
+
+import urllib.request
+import urllib.error
+
+def download(ident):
+    url="http://www.star.nesdis.noaa.gov/smcd/emb/vci/gvix/G04/ts_L1/ByProvince/Mean/L1_Mean_UKR.R%02d.txt"%ident
+    vhi_url = urllib.request.urlopen(url)
+    now=datetime.datetime.now().strftime("%Y_%m_%d-%Hh")
+    out = open('vhi_id_%02d.csv' %ident,'wb')
+    out.write(vhi_url.read())
+    out.close()  
+    os.rename('vhi_id_%02d.csv' %ident, now+'_vhi_id_%02d.csv' %ident)
+    print ("VHI is downloaded...")
+    
+for ident in range(1, 28):
+    download(ident)
+
